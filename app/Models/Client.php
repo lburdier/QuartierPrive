@@ -62,6 +62,7 @@ class Client extends Model
     protected $casts = [
         'date_nais_client' => 'date',
     ];
+
     // Relation pour les biens favoris
     public function favoriteBiens()
     {

@@ -153,9 +153,11 @@ footer a:hover {
 
 /* Styles supplémentaires pour la compatibilité avec Tailwind CSS */
 h1, h2, h3 {
-    @apply font-bold; /* Utilisation de Tailwind si nécessaire */
+    @apply font-bold;
+    /* Utilisation de Tailwind si nécessaire */
 }
 
 .container {
-    @apply mx-auto px-4; /* Marges automatiques pour le centrage */
+    @apply mx-auto px-4;
+    /* Marges automatiques pour le centrage */
 }

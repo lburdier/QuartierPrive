@@ -24,7 +24,8 @@
 
                             <div class="mb-3">
                                 <label for="email" class="form-label">Adresse email</label>
-                                <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+                                <input type="email" name="email" id="email" class="form-control"
+                                       value="{{ old('email') }}" required>
                             </div>
 
                             <div class="mb-3">
@@ -34,7 +35,8 @@
 
                             <div class="mb-3">
                                 <label for="password_confirmation" class="form-label">Confirmer le mot de passe</label>
-                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+                                <input type="password" name="password_confirmation" id="password_confirmation"
+                                       class="form-control" required>
                             </div>
 
                             <div class="d-grid">

@@ -17,7 +17,8 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Adresse email</label>
-                                <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+                                <input type="email" name="email" id="email" class="form-control"
+                                       value="{{ old('email') }}" required>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Envoyer le lien</button>

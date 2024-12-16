@@ -19,7 +19,7 @@ class ResetPasswordController extends Controller
     /**
      * Affiche le formulaire pour réinitialiser le mot de passe.
      *
-     * @param  string|null $token
+     * @param string|null $token
      * @return \Illuminate\View\View
      */
     public function showResetForm($token = null)

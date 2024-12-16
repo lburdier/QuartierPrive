@@ -15,7 +15,8 @@
                                 <h5 class="card-title">{{ $bien->titre }}</h5>
                                 <p class="card-text">Prix : {{ number_format($bien->prix, 2, ',', ' ') }} €</p>
                                 <p>Ville : {{ $bien->ville }}</p>
-                                <a href="{{ route('biens.show', $bien->id) }}" class="btn btn-primary">Voir les détails</a>
+                                <a href="{{ route('biens.show', $bien->id) }}" class="btn btn-primary">Voir les
+                                    détails</a>
                             </div>
                         </div>
                     </div>
