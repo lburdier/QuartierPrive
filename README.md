@@ -1,3 +1,89 @@
+# Tutoriel pour configurer un projet avec un site web, une base de données et importer les données SQLite vers MySQL
+
+### 1. Créer un site web sous ISPConfig
+
+La première étape consiste à créer un nouveau site web sous ISPConfig. Pour ce faire :
+1. Connectez-vous à votre interface ISPConfig.
+2. Allez dans la section **Sites Web**.
+3. Cliquez sur **Ajouter un site Web**.
+4. Remplissez les informations suivantes :
+   - **Domaine** : `quartierprive.burdier.etu.sio.local` (ou le domaine que vous souhaitez utiliser).
+   - **Document Root** : `/var/www/clients/client5/web74`.
+   - **Quota disque** : 200 Mo.
+   - **Quota de trafic** : 200 Mo.
+   - **PHP** : Utilisez **PHP-FPM** pour un meilleur contrôle des processus PHP.
+   - **Version PHP** : Choisissez la version PHP par défaut ou spécifiez une version compatible avec Laravel.
+   - **Auto sous-domaine** : cochez si nécessaire (exemple : `www`).
+5. Cliquez sur **Sauvegarder** pour enregistrer le site.
+
+### 2. Créer un enregistrement DNS pour le domaine
+
+Ensuite, créez un enregistrement DNS pour votre domaine afin de le relier à votre serveur :
+1. Allez dans la section **DNS** de votre fournisseur d'hébergement.
+2. Ajoutez un enregistrement de type **A** pour le domaine `quartierprive.burdier.etu.sio.local` pointant vers l'adresse IP de votre serveur (par exemple `172.31.1.40`).
+3. Sauvegardez les modifications.
+
+### 3. Créer une base de données et un utilisateur
+
+Une fois le domaine et le site configurés, vous devez créer une base de données pour votre projet :
+1. Allez dans la section **Bases de données** dans ISPConfig.
+2. Cliquez sur **Ajouter une base de données**.
+3. Remplissez les informations suivantes :
+   - **Nom de la base de données** : `c5quartierprive`.
+   - **Nom d'utilisateur** : `c5quartierprive`.
+   - **Mot de passe** : Créez un mot de passe pour cet utilisateur.
+4. Sauvegardez les informations.
+   
+Assurez-vous que l'accès à la base de données est configuré pour permettre la connexion à distance si nécessaire.
+
+### 4. Créer un utilisateur shell
+
+1. Allez dans la section **Utilisateurs** dans ISPConfig.
+2. Cliquez sur **Ajouter un utilisateur shell**.
+3. Donnez-lui un nom d'utilisateur et un mot de passe.
+4. Assurez-vous que cet utilisateur a l'accès approprié au répertoire `/var/www/clients/client5/web74`.
+5. Sauvegardez l'utilisateur shell.
+
+### 5. Connexion avec un outil comme WinSCP
+
+Pour accéder au serveur, utilisez un outil comme **WinSCP** :
+1. Ouvrez **WinSCP** et entrez l'IP de votre serveur `172.31.1.40`.
+2. Entrez le **login** et le **mot de passe** de l'utilisateur shell que vous venez de créer.
+3. Vous aurez ainsi un accès à votre répertoire distant.
+
+### 6. Accéder à la base de données via PHPMyAdmin
+
+Accédez à PHPMyAdmin via votre interface ISPConfig ou via un navigateur :
+1. Connectez-vous avec l'utilisateur de la base de données `c5quartierprive` et son mot de passe.
+2. Créez les tables nécessaires dans la base de données, si elles ne sont pas déjà présentes.
+
+### 7. Convertir la base de données SQLite en MySQL
+
+Utilisez un script Python pour convertir la base de données SQLite en MySQL :
+1. Clonez le dépôt du projet SQLite to MySQL à l'aide de la commande suivante :
+   ```bash
+   git clone https://github.com/majidalavizadeh/sqlite-to-mysql.git
+   ```
+Naviguez vers le répertoire du projet :
+```bash
+cd sqlite-to-mysql
+```
+
+```bash
+python export.py /chemin/vers/votre/database.sqlite /chemin/vers/votre/output_structure.sql --export-mode structure
+```
+8. Importer la structure dans PHPMyAdmin
+Ouvrez PHPMyAdmin et sélectionnez la base de données c5quartierprive.
+Allez dans l'onglet Structure et copiez-collez le contenu du fichier output_structure.sql dans l'éditeur SQL.
+Exécutez la requête pour créer les tables.
+9. Insérer les données dans MySQL
+Récupérez le fichier contenant les requêtes d'insertion (les données SQLite converties).
+Allez dans l'onglet SQL de PHPMyAdmin et collez les requêtes d'insertion (INSERT INTO).
+Exécutez les requêtes pour insérer les données dans les tables MySQL.
+Cela terminera la migration des données depuis SQLite vers MySQL et configurera votre projet Laravel pour qu'il fonctionne sur le serveur web.
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
