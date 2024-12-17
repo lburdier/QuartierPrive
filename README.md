@@ -1,6 +1,6 @@
 # Tutoriel pour configurer un projet avec un site web, une base de données et importer les données SQLite vers MySQL
 
-### 1. Créer un site web sous ISPConfig
+## 1. Créer un site web sous ISPConfig
 
 La première étape consiste à créer un nouveau site web sous ISPConfig. Pour ce faire :
 1. Connectez-vous à votre interface ISPConfig.
@@ -16,16 +16,19 @@ La première étape consiste à créer un nouveau site web sous ISPConfig. Pour 
    - **Auto sous-domaine** : cochez si nécessaire (exemple : `www`).
 5. Cliquez sur **Sauvegarder** pour enregistrer le site.
 
-### 2. Créer un enregistrement DNS pour le domaine
+---
+
+## 2. Créer un enregistrement DNS pour le domaine
 
 Ensuite, créez un enregistrement DNS pour votre domaine afin de le relier à votre serveur :
 1. Allez dans la section **DNS** de votre fournisseur d'hébergement.
 2. Ajoutez un enregistrement de type **A** pour le domaine `quartierprive.burdier.etu.sio.local` pointant vers l'adresse IP de votre serveur (par exemple `172.31.1.40`).
 3. Sauvegardez les modifications.
 
-### 3. Créer une base de données et un utilisateur
+---
 
-Une fois le domaine et le site configurés, vous devez créer une base de données pour votre projet :
+## 3. Créer une base de données et un utilisateur
+
 1. Allez dans la section **Bases de données** dans ISPConfig.
 2. Cliquez sur **Ajouter une base de données**.
 3. Remplissez les informations suivantes :
@@ -33,10 +36,12 @@ Une fois le domaine et le site configurés, vous devez créer une base de donné
    - **Nom d'utilisateur** : `c5quartierprive`.
    - **Mot de passe** : Créez un mot de passe pour cet utilisateur.
 4. Sauvegardez les informations.
-   
+
 Assurez-vous que l'accès à la base de données est configuré pour permettre la connexion à distance si nécessaire.
 
-### 4. Créer un utilisateur shell
+---
+
+## 4. Créer un utilisateur shell
 
 1. Allez dans la section **Utilisateurs** dans ISPConfig.
 2. Cliquez sur **Ajouter un utilisateur shell**.
@@ -44,20 +49,26 @@ Assurez-vous que l'accès à la base de données est configuré pour permettre l
 4. Assurez-vous que cet utilisateur a l'accès approprié au répertoire `/var/www/clients/client5/web74`.
 5. Sauvegardez l'utilisateur shell.
 
-### 5. Connexion avec un outil comme WinSCP
+---
+
+## 5. Connexion avec un outil comme WinSCP
 
 Pour accéder au serveur, utilisez un outil comme **WinSCP** :
 1. Ouvrez **WinSCP** et entrez l'IP de votre serveur `172.31.1.40`.
 2. Entrez le **login** et le **mot de passe** de l'utilisateur shell que vous venez de créer.
 3. Vous aurez ainsi un accès à votre répertoire distant.
 
-### 6. Accéder à la base de données via PHPMyAdmin
+---
 
-Accédez à PHPMyAdmin via votre interface ISPConfig ou via un navigateur :
-1. Connectez-vous avec l'utilisateur de la base de données `c5quartierprive` et son mot de passe.
-2. Créez les tables nécessaires dans la base de données, si elles ne sont pas déjà présentes.
+## 6. Accéder à la base de données via PHPMyAdmin
 
-### 7. Convertir la base de données SQLite en MySQL
+1. Accédez à PHPMyAdmin via votre interface ISPConfig ou via un navigateur.
+2. Connectez-vous avec l'utilisateur de la base de données `c5quartierprive` et son mot de passe.
+3. Créez les tables nécessaires dans la base de données, si elles ne sont pas déjà présentes.
+
+---
+
+## 7. Convertir la base de données SQLite en MySQL
 
 Utilisez un script Python pour convertir la base de données SQLite en MySQL :
 1. Clonez le dépôt du projet SQLite to MySQL à l'aide de la commande suivante :
@@ -82,7 +93,7 @@ Allez dans l'onglet SQL de PHPMyAdmin et collez les requêtes d'insertion (INSER
 Exécutez les requêtes pour insérer les données dans les tables MySQL.
 Cela terminera la migration des données depuis SQLite vers MySQL et configurera votre projet Laravel pour qu'il fonctionne sur le serveur web.
 
-
+---
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
