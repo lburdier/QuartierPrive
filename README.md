@@ -2,6 +2,8 @@
 
 ## 1. Créer un site web sous ISPConfig
 
+[![ISPConfig_Logo](https://github.com/user-attachments/assets/2d4603c7-19bb-44f0-9ff6-b1b854f28941)](https://172.31.1.40:8080/login/)
+
 La première étape consiste à créer un nouveau site web sous ISPConfig. Pour ce faire :
 1. Connectez-vous à votre interface ISPConfig.
 2. Allez dans la section **Sites Web**.
