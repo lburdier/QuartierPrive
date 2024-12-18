@@ -1,5 +1,89 @@
 # Tutoriel pour configurer un projet avec un site web, une base de données et importer les données SQLite vers MySQL
 
+<p align="center">
+<a href="https://172.31.1.40:8080/login/" target="_blank">
+<img src="https://www.ispconfig.org/wp-content/themes/ispconfig/images/ispconfig_logo.png" width="300" alt="ISPConfig Logo">
+</a>
+</p>
+
+<p align="center">
+<a href="https://opensource.org/licenses/BSD-3-Clause"><img src="https://img.shields.io/badge/license-BSD%20license-blue" alt="BSD License"></a>
+<a href="https://github.com/ispconfig/ispconfig/actions"><img src="https://img.shields.io/badge/development%20branch-pipeline%20status-blue" alt="Development Branch Pipeline Status"></a>
+</p>
+
+---
+
+## Functions
+
+- **Manage multiple servers from one control panel**
+- Single server, multiserver and mirrored clusters
+- Webserver management
+- Mailserver management
+- DNS server management
+- Virtualization (OpenVZ)
+- Administrator, reseller, client and mailuser login
+- Open Source software (BSD license)
+
+---
+
+## Supported Daemons
+
+- **HTTP**: Apache2 and NGINX  
+- **HTTP stats**: Webalizer, GoAccess and AWStats  
+- **Let's Encrypt**: Acme.sh and certbot  
+- **SMTP**: Postfix  
+- **POP3/IMAP**: Dovecot  
+- **Spamfilter**: Rspamd and Amavis  
+- **FTP**: PureFTPD  
+- **DNS**: BIND9 and PowerDNS  
+- **Database**: MariaDB and MySQL  
+
+---
+
+## Supported Operating Systems
+
+- **Debian** 9, 10, and testing  
+- **Ubuntu** 16.04 - 20.04  
+- **CentOS** 7 and 8  
+
+---
+
+## Auto-Install Script
+
+You can install the "Perfect Server" with ISPConfig using our [official autoinstaller](https://www.howtoforge.com/ispconfig-autoinstall-debian-ubuntu/).
+
+---
+
+## Migration Tool
+
+The Migration Tool helps you to import data from other control panels (currently ISPConfig 2 and 3 – 3.2, Plesk 10 – 12.5, Plesk Onyx, CPanel2 and Confixx 3). For more information, see https://www.ispconfig.org/add-ons/ispconfig-migration-tool/
+
+For more information, see [ISPConfig Migration Tool](https://www.ispconfig.org/add-ons/ispconfig-migration-tool/).
+
+---
+
+## Documentation
+
+You can support ISPConfig development by buying the manual:  
+[ISPConfig Documentation](https://www.ispconfig.org/documentation/)
+
+---
+
+## Contributing
+
+If you like to contribute to the ISPConfig development, please read the contributing guidelines:  
+[CONTRIBUTING.MD](CONTRIBUTING.MD)
+
+---
+
+## Footnotes
+
+not actively tested ↩
+
+The Migration Toolkit now contains beta support for migrating CPanel to ISPConfig. ↩
+
+---
+
 ## 1. Créer un site web sous ISPConfig
 
 [![ISPConfig_Logo](https://github.com/user-attachments/assets/2d4603c7-19bb-44f0-9ff6-b1b854f28941)](https://172.31.1.40:8080/login/)
