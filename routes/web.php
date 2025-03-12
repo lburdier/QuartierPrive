@@ -31,21 +31,21 @@ Route::prefix('agences')->group(function () {
 });
 
 // Routes pour l'authentification
-Route::prefix('auth')->controller(AuthController::class)->group(function () {
-    Route::get('/login', 'showLoginForm')->name('login'); // Formulaire de connexion
-    Route::post('/login', 'login')->name('login.post'); // Traitement de la connexion
-    Route::post('/logout', 'logout')->name('logout'); // Déconnexion
+Route::prefix('auth')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login'); // Formulaire de connexion
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post'); // Traitement de la connexion
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); // Déconnexion
 });
 
 // Routes protégées pour les clients
-Route::middleware('auth:client')->prefix('client')->group(function () {
+Route::middleware(['auth:client'])->prefix('client')->group(function () {
     Route::get('/dashboard', [ClientController::class, 'dashboard'])->name('client.dashboard'); // Tableau de bord du client
     Route::put('/profile', [ClientController::class, 'updateProfile'])->name('client.update'); // Mise à jour du profil
     Route::get('/biens', [BienController::class, 'index'])->name('client.biens.index'); // Liste des biens pour les clients
 });
 
 // Routes protégées pour les agents
-Route::middleware('auth:agent')->prefix('agent')->group(function () {
+Route::middleware(['auth:agent'])->prefix('agent')->group(function () {
     Route::get('/dashboard', [AgentBienController::class, 'dashboard'])->name('agent.dashboard'); // Tableau de bord de l'agent
     Route::resource('/biens', AgentBienController::class); // Gestion des biens par les agents
 });
