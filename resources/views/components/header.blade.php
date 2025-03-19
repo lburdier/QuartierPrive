@@ -1,35 +1,24 @@
-﻿<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
-    <title>FollowUp</title>
-</head>
-<body>
 <header class="header">
-    <div class="header-container">
-        <div class="navbar-brand">
-            <span>FollowUp</span>
+    <div class="container">
+        <div class="logo">
+            <a href="{{ route('home') }}" class="navbar-brand">Agence Immobilière</a>
         </div>
-        <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button> <!-- Bouton pour mobile -->
         <nav class="navbar">
-            @include('components.menu')
+            <ul class="menu">
+                <li><a href="{{ route('biens.index') }}">Nos Biens</a></li>
+                <li><a href="{{ route('clients.index') }}">Nos Clients</a></li>
+                <li><a href="{{ route('agents.index') }}">Nos Agents</a></li>
+                <li><a href="{{ route('contact') }}">Contact</a></li>
+                @auth
+                    <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Se Déconnecter</a></li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                @else
+                    <li><a href="{{ route('login') }}">Se Connecter</a></li>
+                    <li><a href="{{ route('register') }}">S'inscrire</a></li>
+                @endauth
+            </ul>
         </nav>
     </div>
 </header>
-
-<!-- Contenu de la page -->
-
-<script>
-    // Script pour la gestion du menu mobile
-    const toggleButton = document.querySelector('.menu-toggle');
-    const navbar = document.querySelector('.navbar');
-
-    toggleButton.addEventListener('click', () => {
-        navbar.classList.toggle('active');
-    });
-</script>
-
-</body>
-</html>

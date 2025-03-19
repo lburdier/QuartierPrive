@@ -1,24 +1,17 @@
-﻿<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
-    <title>FollowUp</title>
-</head>
-<body>
-<header>
-    <nav class="navbar">
-        <div class="menu container">
-            <ul>
-                <li><a href="{{ url('/') }}">Accueil</a></li>
-                <li><a href="{{ route('patients.index') }}">Liste des Patients</a></li>
-                <li><a href="{{ route('patients.create') }}">Ajouter un Patient</a></li>
-                <li><a href="{{ route('incidents.create') }}">Enregistrer un Incident</a></li>
-                <li><a href="{{ route('incidents.index') }}">Liste des Incidents</a></li>
-            </ul>
-        </div>
-    </nav>
-</header>
-</body>
-</html>
+<nav class="navbar">
+    <ul class="menu">
+        <li><a href="{{ route('biens.index') }}">Nos Biens</a></li>
+        <li><a href="{{ route('clients.index') }}">Nos Clients</a></li>
+        <li><a href="{{ route('agents.index') }}">Nos Agents</a></li>
+        <li><a href="{{ route('contact') }}">Contact</a></li>
+        @auth
+            <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Se Déconnecter</a></li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        @else
+            <li><a href="{{ route('login') }}">Se Connecter</a></li>
+            <li><a href="{{ route('register') }}">S'inscrire</a></li>
+        @endauth
+    </ul>
+</nav>

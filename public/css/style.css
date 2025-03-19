@@ -34,7 +34,7 @@ body {
 .navbar-brand {
     font-size: 24px;
     font-weight: bold;
-    color: #ffffff; /* Couleur accentuée */
+    color: #bb86fc; /* Couleur accentuée */
 }
 
 /* Menu */
@@ -64,7 +64,7 @@ body {
 /* Liens du menu */
 .menu ul li a {
     padding: 10px 20px;
-    background-color: #ffffff; /* Couleur d'accentuation */
+    background-color: #bb86fc; /* Couleur d'accentuation */
     color: #1e1e1e; /* Couleur du texte */
     border-radius: 5px;
     border: 1px solid #6c6c6c; /* Bordure légère grise */
@@ -73,7 +73,7 @@ body {
 }
 
 .menu ul li a:hover {
-    background-color: #dadada;
+    background-color: #985eff;
     transform: scale(1.05);
 }
 
@@ -107,7 +107,7 @@ th, td {
 
 th {
     background-color: #333333;
-    color: #ffffff;
+    color: #bb86fc;
 }
 
 tr:hover {
@@ -118,7 +118,7 @@ tr:hover {
 .btn, .footer-nav a {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #ffffff;
+    background-color: #bb86fc;
     color: #121212;
     border-radius: 5px;
     border: 1px solid #6c6c6c; /* Bordure légère grise */
@@ -128,7 +128,7 @@ tr:hover {
 }
 
 .btn:hover, .footer-nav a:hover {
-    background-color: #ffffff;
+    background-color: #985eff;
 }
 
 /* Footer */
@@ -231,18 +231,6 @@ a:-webkit-any-link {
     color: #000000;
     cursor: pointer;
     text-decoration: none;
-}
-
-.btn, .footer-nav a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #b7b7b7eb;
-    color: #ffffff;
-    border-radius: 5px;
-    border: 1px solid #6c6c6c;
-    text-decoration: none;
-    margin: 0 5px;
-    transition: background-color 0.3s ease;
 }
 
 /* dark.css */
