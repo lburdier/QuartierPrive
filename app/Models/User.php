@@ -32,4 +32,44 @@ class User extends Authenticatable
     {
         return $this->mot_de_passe;
     }
+
+    /**
+     * Vérifie si l'utilisateur est un administrateur.
+     */
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Vérifie si l'utilisateur est un client.
+     */
+    public function isClient()
+    {
+        return $this->role === 'client';
+    }
+
+    /**
+     * Vérifie si l'utilisateur est un agent.
+     */
+    public function isAgent()
+    {
+        return $this->role === 'agent';
+    }
+
+    /**
+     * Définit le mot de passe de l'utilisateur.
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['mot_de_passe'] = Hash::make($value);
+    }
+
+    /**
+     * Vérifie si l'utilisateur a un rôle spécifique.
+     */
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
 }
