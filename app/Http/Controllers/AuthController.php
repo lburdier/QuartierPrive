@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('client.voir_biens')->with('success', 'Connexion réussie');
+            return redirect()->route('biens.index')->with('success', 'Connexion réussie');
         }
 
         return back()->withErrors([
