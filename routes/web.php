@@ -6,6 +6,7 @@ use App\Http\Controllers\BienController;
 use App\Http\Controllers\AgenceController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AgentBienController;
+use App\Http\Controllers\PatientController; // Ajouter cette ligne
 
 // Page d'accueil
 Route::get('/', function () {
@@ -28,4 +29,7 @@ Route::middleware('auth')->group(function () {
     // Clients
     Route::resource('clients', ClientController::class)->except(['show']);
     Route::get('/clients/voir_biens', [ClientController::class, 'voirBiens'])->name('client.voir_biens');
+
+    // Patients
+    Route::resource('patients', PatientController::class); // Ajouter cette ligne
 });
