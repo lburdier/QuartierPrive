@@ -232,3 +232,41 @@ a:-webkit-any-link {
     cursor: pointer;
     text-decoration: none;
 }
+
+/* dark.css */
+body {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.form-label {
+    color: #ffffff;
+}
+
+.form-control {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+}
+
+.btn-primary {
+    background-color: #1a73e8;
+    border-color: #1a73e8;
+}
+
+.btn-primary:hover {
+    background-color: #1763c1;
+    border-color: #1763c1;
+}
+
+.alert-danger {
+    background-color: #721c24;
+    border-color: #721c24;
+    color: #ffffff;
+}
