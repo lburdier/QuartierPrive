@@ -8,7 +8,8 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AgentBienController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\IncidentController;
-use App\Http\Controllers\AgentController; // Ajouter cette ligne
+use App\Http\Controllers\AgentController;
+use App\Http\Controllers\ContactController; // Ajouter cette ligne
 
 // Page d'accueil
 Route::get('/', function () {
@@ -39,5 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('incidents', IncidentController::class);
 
     // Agents
-    Route::resource('agents', AgentController::class); // Ajouter cette ligne
+    Route::resource('agents', AgentController::class);
+
+    // Contact
+    Route::get('/contact', [ContactController::class, 'showContactForm'])->name('contact'); // Ajouter cette ligne
+    Route::post('/contact', [ContactController::class, 'sendContact'])->name('contact.send'); // Ajouter cette ligne
 });
