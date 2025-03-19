@@ -34,7 +34,7 @@ body {
 .navbar-brand {
     font-size: 24px;
     font-weight: bold;
-    color: #bb86fc; /* Couleur accentuée */
+    color: #ffffff; /* Couleur accentuée */
 }
 
 /* Menu */
@@ -64,7 +64,7 @@ body {
 /* Liens du menu */
 .menu ul li a {
     padding: 10px 20px;
-    background-color: #bb86fc; /* Couleur d'accentuation */
+    background-color: #ffffff; /* Couleur d'accentuation */
     color: #1e1e1e; /* Couleur du texte */
     border-radius: 5px;
     border: 1px solid #6c6c6c; /* Bordure légère grise */
@@ -73,7 +73,7 @@ body {
 }
 
 .menu ul li a:hover {
-    background-color: #985eff;
+    background-color: #dadada;
     transform: scale(1.05);
 }
 
@@ -107,7 +107,7 @@ th, td {
 
 th {
     background-color: #333333;
-    color: #bb86fc;
+    color: #ffffff;
 }
 
 tr:hover {
@@ -118,7 +118,7 @@ tr:hover {
 .btn, .footer-nav a {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #bb86fc;
+    background-color: #ffffff;
     color: #121212;
     border-radius: 5px;
     border: 1px solid #6c6c6c; /* Bordure légère grise */
@@ -128,7 +128,7 @@ tr:hover {
 }
 
 .btn:hover, .footer-nav a:hover {
-    background-color: #985eff;
+    background-color: #ffffff;
 }
 
 /* Footer */
@@ -212,25 +212,37 @@ tr:hover {
 
 /* Styles des liens */
 a {
-    color: #8a4dd1;
+    color: #ffffff;
     text-decoration: none;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #6f2af3;
+    color: #ffffff;
     text-decoration: underline;
 }
 
 a:visited {
-    color: #af75e6;
+    color: #f3f3f3;
 }
 
 a:-webkit-any-link {
-    color: #ffffff;
+    color: #000000;
     cursor: pointer;
     text-decoration: none;
+}
+
+.btn, .footer-nav a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #b7b7b7eb;
+    color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #6c6c6c;
+    text-decoration: none;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
 }
 
 /* dark.css */
@@ -246,23 +258,23 @@ body {
 }
 
 .form-label {
-    color: #ffffff;
+    color: #000000;
 }
 
 .form-control {
     background-color: #333333;
-    color: #ffffff;
+    color: #000000;
     border: 1px solid #555555;
 }
 
 .btn-primary {
-    background-color: #1a73e8;
-    border-color: #1a73e8;
+    background-color: #ffffff;
+    border-color: #c5c5c5;
 }
 
 .btn-primary:hover {
-    background-color: #1763c1;
-    border-color: #1763c1;
+    background-color: #ffffff;
+    border-color: #bababa;
 }
 
 .alert-danger {
