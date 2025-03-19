@@ -2,65 +2,86 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Agent;
 use Illuminate\Http\Request;
+use App\Models\Agent;
 
 class AgentController extends Controller
 {
+    /**
+     * Affiche une liste des agents.
+     */
     public function index()
     {
-        \$agents = Agent::all();
+        $agents = Agent::all();
         return view('agents.index', compact('agents'));
     }
 
-    public function show(\$id)
-    {
-        \$agent = Agent::findOrFail(\$id);
-        return view('agents.show', compact('agent'));
-    }
-
+    /**
+     * Affiche le formulaire de création d'un agent.
+     */
     public function create()
     {
         return view('agents.create');
     }
 
-    public function store(Request \$request)
+    /**
+     * Enregistre un nouvel agent.
+     */
+    public function store(Request $request)
     {
-        \$validatedData = \$request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:agents',
-        'phone' => 'required|string|max:15',
-    ]);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            // Ajoutez d'autres champs de validation si nécessaire
+        ]);
 
-        Agent::create(\$validatedData);
+        Agent::create($request->all());
 
         return redirect()->route('agents.index')->with('success', 'Agent créé avec succès.');
     }
 
-    public function edit(\$id)
+    /**
+     * Affiche un agent spécifique.
+     */
+    public function show($id)
     {
-        \$agent = Agent::findOrFail(\$id);
+        $agent = Agent::findOrFail($id);
+        return view('agents.show', compact('agent'));
+    }
+
+    /**
+     * Affiche le formulaire de modification d'un agent.
+     */
+    public function edit($id)
+    {
+        $agent = Agent::findOrFail($id);
         return view('agents.edit', compact('agent'));
     }
 
-    public function update(Request \$request, \$id)
+    /**
+     * Met à jour un agent.
+     */
+    public function update(Request $request, $id)
     {
-        \$validatedData = \$request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:agents,email,' . \$id,
-            'phone' => 'required|string|max:15',
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            // Ajoutez d'autres champs de validation si nécessaire
         ]);
 
-        \$agent = Agent::findOrFail(\$id);
-        \$agent->update(\$validatedData);
+        $agent = Agent::findOrFail($id);
+        $agent->update($request->all());
 
         return redirect()->route('agents.index')->with('success', 'Agent mis à jour avec succès.');
     }
 
-    public function destroy(\$id)
+    /**
+     * Supprime un agent.
+     */
+    public function destroy($id)
     {
-        \$agent = Agent::findOrFail(\$id);
-        \$agent->delete();
+        $agent = Agent::findOrFail($id);
+        $agent->delete();
 
         return redirect()->route('agents.index')->with('success', 'Agent supprimé avec succès.');
     }

@@ -7,7 +7,8 @@ use App\Http\Controllers\AgenceController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AgentBienController;
 use App\Http\Controllers\PatientController;
-use App\Http\Controllers\IncidentController; // Ajouter cette ligne
+use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\AgentController; // Ajouter cette ligne
 
 // Page d'accueil
 Route::get('/', function () {
@@ -35,5 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('patients', PatientController::class);
 
     // Incidents
-    Route::resource('incidents', IncidentController::class); // Ajouter cette ligne
+    Route::resource('incidents', IncidentController::class);
+
+    // Agents
+    Route::resource('agents', AgentController::class); // Ajouter cette ligne
 });
