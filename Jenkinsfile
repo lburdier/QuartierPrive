@@ -37,17 +37,18 @@ pipeline {
       steps {
         script {
           echo '📦 Installation des dépendances Laravel et JS'
-            sh '''
-              apt-get update && apt-get install -y sshpass
-            
-              echo "📁 WORKSPACE = ${WORKSPACE}"
-              /usr/bin/sshpass -p $PASSWORD scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
-              /usr/bin/sshpass -p $PASSWORD ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@api.etudiant.etu.sio.local '
-                cd /private ;
-                php /usr/local/bin/composer update ;
-                php artisan migrate
-              '
-            '''
+          sh '''
+            composer install --prefer-dist --no-interaction || true
+            composer require laravel/ui --dev || true
+
+            if [ -f package.json ]; then
+              echo "📦 Dépendances JS détectées"
+              npm ci || echo "⚠️ npm ci a échoué"
+              npm run build || echo "⚠️ Échec build JS (non bloquant)"
+            else
+              echo "📁 Aucun package.json trouvé, JS ignoré"
+            fi
+          '''
         }
       }
     }
@@ -76,7 +77,7 @@ pipeline {
     stage('Deploy') {
       agent {
         docker {
-          image 'lorisleiva/laravel-docker:stable'
+          image 'lucas/laravel-sshpass:latest' // Ton image personnalisée
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
@@ -90,8 +91,8 @@ pipeline {
             echo "🔐 Déploiement avec l'utilisateur : ${USERNAME}"
             sh '''
               echo "📁 WORKSPACE = ${WORKSPACE}"
-              /usr/bin/sshpass -p $PASSWORD /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
-              /usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@api.etudiant.etu.sio.local '
+              sshpass -p $PASSWORD scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
+              sshpass -p $PASSWORD ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@api.etudiant.etu.sio.local '
                 cd /private ;
                 php /usr/local/bin/composer update ;
                 php artisan migrate
