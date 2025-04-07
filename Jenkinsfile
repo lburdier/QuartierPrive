@@ -88,22 +88,27 @@ pipeline {
           usernameVariable: 'USERNAME',
           passwordVariable: 'PASSWORD'
         )]) {
-          sh '''#!/bin/sh
-            echo "🔐 USERNAME = $USERNAME"
-            echo "📁 WORKSPACE = $WORKSPACE"
+        sh '''#!/bin/sh
+          echo "🔐 USERNAME = $USERNAME"
+          echo "📁 WORKSPACE = $WORKSPACE"
         
-            /usr/bin/sshpass -p "$PASSWORD" /usr/bin/scp \
-              -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-              -r "$WORKSPACE"/* "$USERNAME"@api.etudiant.etu.sio.local:/private
+          # Installation à la volée
+          apt-get update && apt-get install -y sshpass
         
-            /usr/bin/sshpass -p "$PASSWORD" /usr/bin/ssh \
-              -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-              "$USERNAME"@api.etudiant.etu.sio.local '
-                cd /private && \
-                composer install --no-interaction && \
-                php artisan migrate --force
-              '
-          '''
+          # Transfert
+          sshpass -p "$PASSWORD" scp \
+            -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+            -r "$WORKSPACE"/* "$USERNAME"@api.etudiant.etu.sio.local:/private
+        
+          # Commandes à distance
+          sshpass -p "$PASSWORD" ssh \
+            -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+            "$USERNAME"@api.etudiant.etu.sio.local '
+              cd /private && \
+              composer install --no-interaction && \
+              php artisan migrate --force
+            '
+        '''
         }
       }
     }
