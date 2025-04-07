@@ -1,10 +1,16 @@
+:root {
+    --color-primary: #000000; /* Noir */
+    --color-secondary: #ffffff; /* Blanc */
+    --color-accent: #ff6600; /* Orange */
+}
+
 /* Typographie de base */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
-    color: #333;
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
     line-height: 1.6;
 }
 
@@ -28,7 +34,8 @@ p {
 
 /* Style de la barre de navigation */
 .navbar {
-    background-color: #ffffff;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
     border-bottom: 2px solid #e0e0e0;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -70,6 +77,16 @@ p {
 
 .btn:hover {
     background-color: #1554b4;
+}
+
+.btn-primary {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.btn-primary:hover {
+    background-color: darken(var(--color-accent), 10%);
+    border-color: darken(var(--color-accent), 10%);
 }
 
 /* Style des formulaires */
@@ -160,4 +177,19 @@ h1, h2, h3 {
 .container {
     @apply mx-auto px-4;
     /* Marges automatiques pour le centrage */
+}
+
+/* Autres styles personnalisés */
+.navbar a {
+    color: var(--color-secondary);
+}
+
+.table {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+}
+
+.table thead {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
 }

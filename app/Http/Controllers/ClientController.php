@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -14,12 +15,12 @@ class ClientController extends Controller
      */
     public function dashboard()
     {
-        $client = auth('client')->user(); // Utilise le guard 'client'
-
         // Vérifie si l'utilisateur est connecté
-        if (!$client) {
+        if (!Auth::check()) {
             return redirect()->route('login')->withErrors(['error' => 'Veuillez vous connecter pour accéder au tableau de bord.']);
         }
+
+        $client = Auth::user();
 
         // Récupère les biens favoris liés au client (relation définie dans le modèle)
         $favoriteProperties = $client->favoriteBiens ?? collect();
@@ -35,20 +36,20 @@ class ClientController extends Controller
      */
     public function updateProfile(Request $request)
     {
+        // Vérifie si l'utilisateur est connecté
+        if (!Auth::check()) {
+            return redirect()->route('login')->withErrors(['error' => 'Veuillez vous connecter pour mettre à jour votre profil.']);
+        }
+
+        $client = Auth::user();
+
         // Validation des données d'entrée
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:clients,email,' . auth('client')->id(), // Vérifie l'unicité tout en autorisant l'email actuel
+            'email' => 'required|email|unique:clients,email,' . $client->id,
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
         ]);
-
-        $client = auth('client')->user();
-
-        // Vérifie si l'utilisateur est connecté
-        if (!$client) {
-            return redirect()->route('login')->withErrors(['error' => 'Veuillez vous connecter pour mettre à jour votre profil.']);
-        }
 
         // Met à jour les informations du client
         $client->update($validatedData);

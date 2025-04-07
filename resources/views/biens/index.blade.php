@@ -2,21 +2,25 @@
 
 @section('content')
     <div class="container mt-5">
-        <h1>Liste des biens disponibles</h1>
+        <h1 class="text-center mb-4">Liste des biens disponibles</h1>
 
         @if ($biens->isEmpty())
-            <p>Aucun bien disponible pour le moment.</p>
+            <div class="alert alert-warning text-center">Aucun bien disponible pour le moment.</div>
         @else
             <div class="row">
                 @foreach ($biens as $bien)
                     <div class="col-md-4 mb-4">
-                        <div class="card">
+                        <div class="card shadow-sm">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $bien->titre }}</h5>
-                                <p class="card-text">Prix : {{ number_format($bien->prix, 2, ',', ' ') }} €</p>
-                                <p>Ville : {{ $bien->ville }}</p>
-                                <a href="{{ route('biens.show', $bien->id) }}" class="btn btn-primary">Voir les
-                                    détails</a>
+                                <p class="card-text"><strong>Prix :</strong> {{ number_format($bien->prix, 2, ',', ' ') }} €</p>
+                                <p class="card-text"><strong>Ville :</strong> {{ $bien->ville }}</p>
+
+                                @if(isset($bien->id))
+                                    <a href="{{ route('biens.show', ['id' => $bien->id]) }}" class="btn btn-primary w-100">Voir les détails</a>
+                                @else
+                                    <span class="text-danger">Erreur : ID manquant</span>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -24,7 +28,7 @@
             </div>
 
             <!-- Pagination -->
-            <div class="mt-4">
+            <div class="mt-4 d-flex justify-content-center">
                 {{ $biens->links() }}
             </div>
         @endif

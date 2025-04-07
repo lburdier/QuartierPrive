@@ -36,4 +36,23 @@ class BienController extends Controller
 
         return view('biens.voir_les_biens', compact('biens'));
     }
+
+    /**
+     * Affiche les détails d'un bien spécifique.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function show($id)
+    {
+        // Recherche du bien avec ses relations
+        $bien = Bien::with(['agent', 'agence'])->find($id);
+
+        // Vérifie si le bien existe
+        if (!$bien) {
+            return redirect()->route('biens.index')->withErrors('Le bien demandé n\'existe pas.');
+        }
+
+        return view('biens.show', compact('bien'));
+    }
 }

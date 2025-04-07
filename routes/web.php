@@ -9,17 +9,15 @@ use App\Http\Controllers\AgentBienController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\AgentController;
-use App\Http\Controllers\ContactController; // Ajouter cette ligne
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PropertyController;
 
 // Page d'accueil
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// Authentification
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Auth::routes(); // Utiliser les routes d'authentification générées par laravel/ui
 
 // Routes protégées par l'authentification
 Route::middleware('auth')->group(function () {
@@ -43,6 +41,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('agents', AgentController::class);
 
     // Contact
-    Route::get('/contact', [ContactController::class, 'showContactForm'])->name('contact'); // Ajouter cette ligne
-    Route::post('/contact', [ContactController::class, 'sendContact'])->name('contact.send'); // Ajouter cette ligne
+    Route::get('/contact', [ContactController::class, 'showContactForm'])->name('contact');
+    Route::post('/contact', [ContactController::class, 'sendContact'])->name('contact.send');
+
+    // Properties
+    Route::resource('properties', PropertyController::class);
 });

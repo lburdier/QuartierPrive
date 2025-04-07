@@ -71,6 +71,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Client::class, // Modèle pour les clients
         ],
+
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
     ],
 
     /*

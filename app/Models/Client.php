@@ -3,15 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
+    use HasFactory;
+
     /**
      * Nom de la table associée.
      *
      * @var string
      */
-    protected $table = 'client';
+    protected $table = 'client'; // Vérifie si c'est bien 'client' et pas 'clients'
 
     /**
      * Clé primaire de la table.
@@ -19,6 +22,13 @@ class Client extends Model
      * @var string
      */
     protected $primaryKey = 'id_client';
+
+    /**
+     * Désactiver les timestamps si non utilisés.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * Les attributs qui peuvent être assignés en masse.
@@ -47,11 +57,11 @@ class Client extends Model
     }
 
     /**
-     * Définir un accessoire pour le nom complet du client.
+     * Accessoire pour obtenir le nom complet du client.
      */
     public function getNomCompletAttribute()
     {
-        return $this->prenom_client . ' ' . $this->nom_client;
+        return "{$this->prenom_client} {$this->nom_client}";
     }
 
     /**
@@ -63,9 +73,16 @@ class Client extends Model
         'date_nais_client' => 'date',
     ];
 
-    // Relation pour les biens favoris
+    /**
+     * Relation avec les biens favoris.
+     */
     public function favoriteBiens()
     {
-        return $this->belongsToMany(Bien::class, 'client_favorite_biens', 'client_id', 'bien_id');
+        return $this->belongsToMany(
+            Bien::class,
+            'client_favorite_biens', // Nom exact de la table pivot
+            'client_id', // Clé étrangère côté Client
+            'bien_id' // Clé étrangère côté Bien
+        )->withTimestamps(); // Si la table pivot a des timestamps
     }
 }
