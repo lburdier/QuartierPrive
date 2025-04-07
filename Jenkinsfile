@@ -8,21 +8,21 @@ pipeline {
     stage('Test') {
       agent {
         docker {
-          image 'debian-laravel-php8:latest'
+          image 'debian-laravel:latest'
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
       steps {
-        sh "composer update"
-        sh "cp /.env ${WORKSPACE}/.env"
-        sh "php artisan test"
+        sh 'composer update'
+        sh 'cp /.env ${WORKSPACE}/.env'
+        sh 'php artisan test'
       }
     }
 
     stage('Deploy') {
       agent {
         docker {
-          image 'debian-laravel-php8:latest'
+          image 'debian-laravel:latest'
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
@@ -34,25 +34,27 @@ pipeline {
             passwordVariable: 'PASSWORD'
           )
         ]) {
-          sh "echo USERNAME     = \$USERNAME"
-          sh "echo PASSWORD     = \$PASSWORD"
-          sh "echo WORKSPACE    = ${env.WORKSPACE}"
+          sh 'echo USERNAME     = $USERNAME'
+          sh 'echo PASSWORD     = $PASSWORD'
+          sh 'echo WORKSPACE    = ${env.WORKSPACE}'
 
-          sh """
-            /usr/bin/sshpass -p \$PASSWORD /usr/bin/scp \
+          // Transfert des fichiers
+          sh '''
+            /usr/bin/sshpass -p $PASSWORD /usr/bin/scp \
               -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-              -r ${env.WORKSPACE}/* \$USERNAME@api.etudiant.etu.sio.local:/private
-          """
+              -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
+          '''
 
-          sh """
-            /usr/bin/sshpass -p \$PASSWORD /usr/bin/ssh \
+          // Commandes distantes
+          sh '''
+            /usr/bin/sshpass -p $PASSWORD /usr/bin/ssh \
               -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-              \$USERNAME@api.etudiant.etu.sio.local '
+              $USERNAME@api.etudiant.etu.sio.local '
                 cd /private && \
-                /usr/bin/php8.3 /usr/local/bin/composer update && \
-                /usr/bin/php8.3 artisan migrate
+                composer update && \
+                php artisan migrate
               '
-          """
+          '''
         }
       }
     }
