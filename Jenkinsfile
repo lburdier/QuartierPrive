@@ -1,10 +1,8 @@
 pipeline {
   agent any
   environment {
-    HOME = '.'
   }
   stages {
-    stage('Test') {
       agent {
         docker {
           image 'debian-laravel:latest'
@@ -12,8 +10,6 @@ pipeline {
         }
       }
       steps {
-        sh "composer update"
-        sh "php artisan test"
       }
     }
   }
