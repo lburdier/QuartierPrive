@@ -74,34 +74,34 @@ pipeline {
       }
     }
 
-stage('Deploy') {
-  agent {
-    docker {
-      image 'lorisleiva/laravel-docker:stable'
-      args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
-    }
-  }
-  steps {
-    script {
-      withCredentials([usernamePassword(
-        credentialsId: '55b96359-6f51-4959-a822-e0815b4338a2',
-        usernameVariable: 'USERNAME',
-        passwordVariable: 'PASSWORD'
-      )]) {
-        echo "🔐 Déploiement avec l'utilisateur : ${USERNAME}"
-        sh '''
-          echo "📁 WORKSPACE = ${WORKSPACE}"
-          /usr/bin/sshpass -p $PASSWORD /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
-          /usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@api.etudiant.etu.sio.local '
-            cd /private ;
-            php /usr/local/bin/composer update ;
-            php artisan migrate
-          '
-        '''
+    stage('Deploy') {
+      agent {
+        docker {
+          image 'lorisleiva/laravel-docker:stable'
+          args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
+        }
+      }
+      steps {
+        script {
+          withCredentials([usernamePassword(
+            credentialsId: '55b96359-6f51-4959-a822-e0815b4338a2',
+            usernameVariable: 'USERNAME',
+            passwordVariable: 'PASSWORD'
+          )]) {
+            echo "🔐 Déploiement avec l'utilisateur : ${USERNAME}"
+            sh '''
+              echo "📁 WORKSPACE = ${WORKSPACE}"
+              /usr/bin/sshpass -p $PASSWORD /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
+              /usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@api.etudiant.etu.sio.local '
+                cd /private ;
+                php /usr/local/bin/composer update ;
+                php artisan migrate
+              '
+            '''
+          }
+        }
       }
     }
-  }
-}
 
   post {
     success {
