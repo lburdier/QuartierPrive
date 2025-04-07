@@ -17,9 +17,19 @@ pipeline {
       steps {
         script {
           echo '🔍 Vérification de l’environnement Laravel'
+
+          // Vérifie et installe Composer si nécessaire
           sh '''
             php -v || exit 1
-            composer --version || exit 1
+            if ! command -v composer > /dev/null; then
+              echo "⚙️ Composer non trouvé. Installation..."
+              EXPECTED_CHECKSUM="$(php -r 'copy(\"https://composer.github.io/installer.sig\", \"php://stdout\");')"
+              php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+              php -r "if (hash_file('sha384', 'composer-setup.php') === '$EXPECTED_CHECKSUM') { echo '✔️ Vérifié'; } else { echo '✖️ Corrompu'; unlink('composer-setup.php'); exit(1); }"
+              php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+              rm composer-setup.php
+            fi
+            composer --version
             node -v || true
             npm -v || true
           '''
