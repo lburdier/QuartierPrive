@@ -3,6 +3,7 @@ pipeline {
   environment {
     HOME = '.'
   }
+
   stages {
     stage('Test') {
       agent {
@@ -12,11 +13,12 @@ pipeline {
         }
       }
       steps {
-        sh 'composer update'
-        sh 'cp /.env ${WORKSPACE}/.env'
-        sh 'php artisan test'
+        sh "composer update"
+        sh "cp /.env ${WORKSPACE}/.env"
+        sh "php artisan test"
       }
     }
+
     stage('Deploy') {
       agent {
         docker {
@@ -25,28 +27,32 @@ pipeline {
         }
       }
       steps {
-        withCredentials([usernamePassword(credentialsId: 'ae991101-3c42-4f86-9501-0a3449954f98', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-          sh 'echo USERNAME     = $USERNAME'
-          sh 'echo PASSWORD     = $PASSWORD'
-          sh 'echo WORKSPACE    = ${env.WORKSPACE}'
+        withCredentials([
+          usernamePassword(
+            credentialsId: 'ae991101-3c42-4f86-9501-0a3449954f98',
+            usernameVariable: 'USERNAME',
+            passwordVariable: 'PASSWORD'
+          )
+        ]) {
+          sh "echo USERNAME     = \$USERNAME"
+          sh "echo PASSWORD     = \$PASSWORD"
+          sh "echo WORKSPACE    = ${env.WORKSPACE}"
 
-          // Transfert des fichiers
-          sh '''
-            /usr/bin/sshpass -p $PASSWORD /usr/bin/scp \
+          sh """
+            /usr/bin/sshpass -p \$PASSWORD /usr/bin/scp \
               -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-              -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
-          '''
+              -r ${env.WORKSPACE}/* \$USERNAME@api.etudiant.etu.sio.local:/private
+          """
 
-          // Commandes distantes
-          sh '''
-            /usr/bin/sshpass -p $PASSWORD /usr/bin/ssh \
+          sh """
+            /usr/bin/sshpass -p \$PASSWORD /usr/bin/ssh \
               -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-              $USERNAME@api.etudiant.etu.sio.local '
+              \$USERNAME@api.etudiant.etu.sio.local '
                 cd /private && \
                 /usr/bin/php8.3 /usr/local/bin/composer update && \
                 /usr/bin/php8.3 artisan migrate
               '
-          '''
+          """
         }
       }
     }
