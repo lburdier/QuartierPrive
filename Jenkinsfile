@@ -38,17 +38,18 @@ pipeline {
       steps {
         script {
           echo '📦 Installation des dépendances Laravel et JS'
-          sh '''
-            composer install --prefer-dist --no-interaction
-
-            if [ -f package.json ]; then
-              echo "📦 Dépendances JS détectées"
-              npm ci || echo "⚠️ npm ci a échoué"
-              npm run build || echo "⚠️ Échec build JS (non bloquant)"
-            else
-              echo "📁 Aucun package.json trouvé, JS ignoré"
-            fi
-          '''
+            sh '''
+              composer install --prefer-dist --no-interaction || true
+              composer require laravel/ui --dev || true
+            
+              if [ -f package.json ]; then
+                echo "📦 Dépendances JS détectées"
+                npm ci || echo "⚠️ npm ci a échoué"
+                npm run build || echo "⚠️ Échec build JS (non bloquant)"
+              else
+                echo "📁 Aucun package.json trouvé, JS ignoré"
+              fi
+            '''
         }
       }
     }
