@@ -90,14 +90,16 @@ pipeline {
         )]) {
           script {
             echo '🚀 Déploiement sur serveur distant'
-            sh '''
-              echo "🔐 USERNAME = $USERNAME"
-              echo "📁 WORKSPACE = ${env.WORKSPACE}"
+            sh "echo \"🔐 USERNAME = $USERNAME\""
+            sh "echo \"📁 WORKSPACE = ${env.WORKSPACE}\""
             
+            sh """
               /usr/bin/sshpass -p $PASSWORD /usr/bin/scp \
                 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-                -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
+                -r ${env.WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
+            """
             
+            sh """
               /usr/bin/sshpass -p $PASSWORD /usr/bin/ssh \
                 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
                 $USERNAME@api.etudiant.etu.sio.local '
@@ -105,7 +107,7 @@ pipeline {
                   composer install --no-interaction && \
                   php artisan migrate --force
                 '
-            '''
+            """
           }
         }
       }
