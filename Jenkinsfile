@@ -77,6 +77,7 @@ pipeline {
     stage('Build custom Docker image') {
       steps {
         script {
+          echo '🐳 Construction de l\'image Docker personnalisée avec sshpass'
           sh '''
             docker build -t lucas/laravel-sshpass:latest .
           '''
@@ -87,7 +88,7 @@ pipeline {
     stage('Deploy') {
       agent {
         docker {
-          image 'lucas/laravel-sshpass:latest' // Ton image personnalisée
+          image 'lucas/laravel-sshpass:latest'
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
