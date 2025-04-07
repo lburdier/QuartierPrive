@@ -10,7 +10,6 @@ pipeline {
     stage('Test') {
       agent {
         docker {
-          // ✅ Image contenant déjà PHP, Composer, Node.js
           image 'lorisleiva/laravel-docker:stable'
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
@@ -38,18 +37,18 @@ pipeline {
       steps {
         script {
           echo '📦 Installation des dépendances Laravel et JS'
-            sh '''
-              composer install --prefer-dist --no-interaction || true
-              composer require laravel/ui --dev || true
-            
-              if [ -f package.json ]; then
-                echo "📦 Dépendances JS détectées"
-                npm ci || echo "⚠️ npm ci a échoué"
-                npm run build || echo "⚠️ Échec build JS (non bloquant)"
-              else
-                echo "📁 Aucun package.json trouvé, JS ignoré"
-              fi
-            '''
+          sh '''
+            composer install --prefer-dist --no-interaction || true
+            composer require laravel/ui --dev || true
+
+            if [ -f package.json ]; then
+              echo "📦 Dépendances JS détectées"
+              npm ci || echo "⚠️ npm ci a échoué"
+              npm run build || echo "⚠️ Échec build JS (non bloquant)"
+            else
+              echo "📁 Aucun package.json trouvé, JS ignoré"
+            fi
+          '''
         }
       }
     }
@@ -67,7 +66,7 @@ pipeline {
           sh '''
             cp .env.example .env || true
             php artisan config:clear
-            php artisan key:generate
+            php artisan key:generate || true
             php artisan migrate:fresh --seed --force || true
             php artisan test
           '''
@@ -79,7 +78,7 @@ pipeline {
       agent {
         docker {
           image 'lorisleiva/laravel-docker:stable'
-          args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
+          args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group --user=root'
         }
       }
       steps {
@@ -88,27 +87,26 @@ pipeline {
           usernameVariable: 'USERNAME',
           passwordVariable: 'PASSWORD'
         )]) {
-        sh '''#!/bin/sh
-          echo "🔐 USERNAME = $USERNAME"
-          echo "📁 WORKSPACE = $WORKSPACE"
-        
-          # Installation à la volée
-          apt-get update && apt-get install -y sshpass
-        
-          # Transfert
-          sshpass -p "$PASSWORD" scp \
-            -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-            -r "$WORKSPACE"/* "$USERNAME"@api.etudiant.etu.sio.local:/private
-        
-          # Commandes à distance
-          sshpass -p "$PASSWORD" ssh \
-            -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-            "$USERNAME"@api.etudiant.etu.sio.local '
-              cd /private && \
-              composer install --no-interaction && \
-              php artisan migrate --force
-            '
-        '''
+          script {
+            sh '''#!/bin/sh
+              echo "🔐 USERNAME = $USERNAME"
+              echo "📁 WORKSPACE = $WORKSPACE"
+
+              apt-get update && apt-get install -y sshpass
+
+              sshpass -p "$PASSWORD" scp \
+                -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+                -r "$WORKSPACE"/* "$USERNAME"@api.etudiant.etu.sio.local:/private
+
+              sshpass -p "$PASSWORD" ssh \
+                -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
+                "$USERNAME"@api.etudiant.etu.sio.local '
+                  cd /private && \
+                  composer install --no-interaction && \
+                  php artisan migrate --force
+                '
+            '''
+          }
         }
       }
     }
