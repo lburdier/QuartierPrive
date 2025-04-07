@@ -65,10 +65,10 @@ pipeline {
         script {
           echo '🧪 Exécution des tests Laravel'
           sh '''
-            cp /.env ${WORKSPACE}/.env || true
+            cp .env.example .env || true
             php artisan config:clear
-            php artisan key:generate || true
-            php artisan migrate:fresh --seed || true
+            php artisan key:generate
+            php artisan migrate:fresh --seed --force || true
             php artisan test
           '''
         }
