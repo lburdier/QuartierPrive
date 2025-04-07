@@ -74,39 +74,40 @@ pipeline {
       }
     }
 
-stage('Deploy') {
-  agent {
-    docker {
-      image 'lorisleiva/laravel-docker:stable'
-      args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group --user=root'
-    }
-  }
-  steps {
-    withCredentials([usernamePassword(
-      credentialsId: '55b96359-6f51-4959-a822-e0815b4338a2',
-      usernameVariable: 'USERNAME',
-      passwordVariable: 'PASSWORD'
-    )]) {
-      script {
-        sh """#!/bin/sh
-          echo "🔐 USERNAME = \$USERNAME"
-          echo "📁 WORKSPACE = \$WORKSPACE"
+    stage('Deploy') {
+      agent {
+        docker {
+          image 'lorisleiva/laravel-docker:stable'
+          args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group --user=root'
+        }
+      }
+      steps {
+        withCredentials([usernamePassword(
+          credentialsId: '55b96359-6f51-4959-a822-e0815b4338a2',
+          usernameVariable: 'USERNAME',
+          passwordVariable: 'PASSWORD'
+        )]) {
+          script {
+            sh """#!/bin/sh
+              echo "🔐 USERNAME = \$USERNAME"
+              echo "📁 WORKSPACE = \$WORKSPACE"
 
-          sshpass -p "\$PASSWORD" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \\
-            -r "\$WORKSPACE"/* "\$USERNAME"@api.etudiant.etu.sio.local:/private
+              sshpass -p "\$PASSWORD" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \\
+                -r "\$WORKSPACE"/* "\$USERNAME"@api.etudiant.etu.sio.local:/private
 
-          sshpass -p "\$PASSWORD" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \\
-            "\$USERNAME"@api.etudiant.etu.sio.local '
-              cd /private && \
-              /usr/bin/php8.3 /usr/local/bin/composer update && \
-              /usr/bin/php8.3 artisan migrate
-            '
-        """
+              sshpass -p "\$PASSWORD" ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \\
+                "\$USERNAME"@api.etudiant.etu.sio.local '
+                  cd /private && \
+                  /usr/bin/php8.3 /usr/local/bin/composer update && \
+                  /usr/bin/php8.3 artisan migrate
+                '
+            """
+          }
+        }
       }
     }
   }
-}
-      
+
   post {
     success {
       echo '✅ Pipeline terminée avec succès.'
