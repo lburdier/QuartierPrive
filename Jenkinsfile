@@ -3,75 +3,58 @@ pipeline {
 
   environment {
     HOME = '.'
-    COMPOSER_MEMORY_LIMIT = '-1'
-  }
-
-  options {
-    timestamps()
-    ansiColor('xterm') // Pour une sortie plus lisible
   }
 
   stages {
-    stage('Environment Check') {
+    stage('Test') {
       agent {
         docker {
-          image 'debian-laravel:latest'
-          args '-u root -v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
+          image 'debian-laravel:latest' // <-- Image générique sans PHP 8 dans le nom
+          args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
       steps {
-        echo '🔧 Vérification des outils disponibles'
-        sh '''
-          echo "PHP : $(php -v | head -n 1)"
-          echo "Composer : $(composer --version)"
-          echo "Node.js : $(node -v || echo 'non installé')"
-          echo "NPM : $(npm -v || echo 'non installé')"
-        '''
+        echo "📦 Installation des dépendances PHP"
+        sh 'composer update'
+
+        echo "⚙️ Copie du fichier .env"
+        sh 'cp /.env ${WORKSPACE}/.env'
+
+        echo "✅ Lancement des tests Laravel"
+        sh 'php artisan test'
       }
     }
 
-    stage('Install Dependencies') {
+    stage('Deploy') {
+      agent {
+        docker {
+          image 'debian-laravel:latest' // <-- Même image générique ici
+          args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
+        }
+      }
       steps {
-        echo '📦 Installation des dépendances PHP & JS'
-        sh '''
-          composer install --prefer-dist --no-interaction
+        withCredentials([usernamePassword(credentialsId: 'abb21120-67aa-4ecd-b243-04cdbda6770f	', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          echo "🚀 Déploiement vers serveur distant"
+          
+          sh 'echo USERNAME     = $USERNAME'
+          sh 'echo PASSWORD     = $PASSWORD'
+          sh 'echo WORKSPACE    = ${env.WORKSPACE}'
 
-          if [ -f package.json ]; then
-            npm ci
-            npm run build || echo "⚠️ Build JS non requis ou échoué"
-          fi
-        '''
+          // Transfert des fichiers
+          sh '''
+            /usr/bin/sshpass -p $PASSWORD /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
+          '''
+
+          // Installation des dépendances & migration
+          sh '''
+            /usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@api.etudiant.etu.sio.local '
+              cd /private &&
+              php /usr/local/bin/composer update &&
+              php artisan migrate
+            '
+          '''
+        }
       }
-    }
-
-    stage('Prepare Laravel') {
-      steps {
-        echo '🧪 Préparation de l’environnement Laravel'
-        sh '''
-          cp .env.example .env || true
-          php artisan config:clear
-          php artisan key:generate || true
-        '''
-      }
-    }
-
-    stage('Run Tests') {
-      steps {
-        echo '✅ Exécution des tests Laravel'
-        sh 'php artisan test --parallel || php artisan test'
-      }
-    }
-  }
-
-  post {
-    success {
-      echo '🎉 Pipeline terminée avec succès.'
-    }
-    failure {
-      echo '💥 Échec de la pipeline. Consulte les logs ci-dessus.'
-    }
-    always {
-      echo '📄 Fin de l’exécution du pipeline.'
     }
   }
 }
