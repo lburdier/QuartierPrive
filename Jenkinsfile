@@ -74,6 +74,16 @@ pipeline {
       }
     }
 
+    stage('Build custom Docker image') {
+      steps {
+        script {
+          sh '''
+            docker build -t lucas/laravel-sshpass:latest .
+          '''
+        }
+      }
+    }
+
     stage('Deploy') {
       agent {
         docker {
