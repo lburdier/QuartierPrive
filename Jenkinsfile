@@ -1,15 +1,13 @@
 pipeline {
   agent any
-
   environment {
     HOME = '.'
   }
-
   stages {
     stage('Test') {
       agent {
         docker {
-          image 'debian-laravel:latest'
+          image 'debian-laravel-php8:latest'
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
@@ -19,36 +17,34 @@ pipeline {
         sh 'php artisan test'
       }
     }
-
     stage('Deploy') {
       agent {
         docker {
-          image 'debian-laravel:latest'
+          image 'debian-laravel-php8:latest'
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
       steps {
-        withCredentials([usernamePassword(credentialsId: 'abb21120-67aa-4ecd-b243-04cdbda6770f', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-          echo '🔐 Connexion SSH en cours...'
-
+        withCredentials([usernamePassword(credentialsId: 'ae991101-3c42-4f86-9501-0a3449954f98', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
           sh 'echo USERNAME     = $USERNAME'
+          sh 'echo PASSWORD     = $PASSWORD'
           sh 'echo WORKSPACE    = ${env.WORKSPACE}'
 
           // Transfert des fichiers
           sh '''
             /usr/bin/sshpass -p $PASSWORD /usr/bin/scp \
               -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-              -r ${WORKSPACE}/* $USERNAME@api.UTI302.etu.sio.local:/private
+              -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
           '''
 
-          // Commandes distantes sur le serveur
+          // Commandes distantes
           sh '''
             /usr/bin/sshpass -p $PASSWORD /usr/bin/ssh \
               -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no \
-              $USERNAME@api.UTI302.etu.sio.local '
+              $USERNAME@api.etudiant.etu.sio.local '
                 cd /private && \
-                composer update && \
-                php artisan migrate
+                /usr/bin/php8.3 /usr/local/bin/composer update && \
+                /usr/bin/php8.3 artisan migrate
               '
           '''
         }
