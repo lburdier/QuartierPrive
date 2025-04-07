@@ -82,19 +82,27 @@ pipeline {
         }
       }
       steps {
-        withCredentials([usernamePassword(credentialsId: '55b96359-6f51-4959-a822-e0815b4338a2', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')])
-         {
-          sh "echo USERNAME     = $USERNAME"
-          sh "echo PASSWORD     = $PASSWORD"
-          sh "echo WORKSPACE    = ${env.WORKSPACE}"
-          sh "/usr/bin/sshpass -p $PASSWORD /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${env.WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private"
-          sh "/usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@api.etudiant.etu.sio.local 'cd /private ; /usr/bin/php8.3 /usr/local/bin/composer update'"
-          sh "/usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@api.etudiant.etu.sio.local 'cd /private ; /usr/bin/php8.3 artisan migrate'"
+        script {
+          withCredentials([usernamePassword(
+            credentialsId: '55b96359-6f51-4959-a822-e0815b4338a2',
+            usernameVariable: 'USERNAME',
+            passwordVariable: 'PASSWORD'
+          )]) {
+            echo "🔐 Déploiement avec l'utilisateur : ${USERNAME}"
+            sh '''
+              echo "📁 WORKSPACE = ${WORKSPACE}"
+              /usr/bin/sshpass -p $PASSWORD /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
+              /usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@api.etudiant.etu.sio.local '
+                cd /private ;
+                /usr/bin/php8.3 /usr/local/bin/composer update ;
+                /usr/bin/php8.3 artisan migrate
+              '
+            '''
+          }
         }
       }
     }
   }
-}
 
   post {
     success {
