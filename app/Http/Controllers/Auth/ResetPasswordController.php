@@ -7,23 +7,23 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Password Reset Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller is responsible for handling password reset requests
+    | and uses a simple trait to include this behavior. You're free to
+    | explore this trait and override any methods you wish to tweak.
+    |
+    */
+
     use ResetsPasswords;
 
     /**
-     * Où rediriger les utilisateurs après la réinitialisation du mot de passe.
+     * Where to redirect users after resetting their password.
      *
      * @var string
      */
-    protected $redirectTo = '/login';
-
-    /**
-     * Affiche le formulaire pour réinitialiser le mot de passe.
-     *
-     * @param string|null $token
-     * @return \Illuminate\View\View
-     */
-    public function showResetForm($token = null)
-    {
-        return view('auth.passwords.reset')->with(['token' => $token]);
-    }
+    protected $redirectTo = '/home';
 }
