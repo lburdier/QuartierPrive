@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth; // Import de la classe Auth
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\AgenceController;
@@ -10,7 +11,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\PropertyController; // Import de PropertyController
 
 // Page d'accueil
 Route::get('/', function () {
