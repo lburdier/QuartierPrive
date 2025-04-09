@@ -11,7 +11,7 @@ pipeline {
     stage('Test') {
       agent {
         docker {
-          image 'lorisleiva/laravel-docker:stable'
+          image 'debian-laravel:latest'
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
@@ -31,7 +31,7 @@ pipeline {
     stage('Install dependencies') {
       agent {
         docker {
-          image 'lorisleiva/laravel-docker:stable'
+          image 'debian-laravel:latest'
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
@@ -57,7 +57,7 @@ pipeline {
     stage('Run Laravel Tests') {
       agent {
         docker {
-          image 'lorisleiva/laravel-docker:stable'
+          image 'debian-laravel:latest'
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
@@ -70,17 +70,6 @@ pipeline {
             php artisan key:generate || true
             php artisan migrate:fresh --seed --force || true
             php artisan test
-          '''
-        }
-      }
-    }
-
-    stage('Build custom Docker image') {
-      steps {
-        script {
-          echo '🐳 Construction de l\'image Docker personnalisée avec sshpass'
-          sh '''
-            docker build -t lucas/laravel-sshpass:latest .
           '''
         }
       }
