@@ -47,7 +47,3 @@ Route::middleware('auth')->group(function () {
     // Properties
     Route::resource('properties', PropertyController::class);
 });
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
