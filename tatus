@@ -1,0 +1,99 @@
+[33mec97ca5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Merge remote-tracking branch 'origin/master'
+[33m37b28cd[m Merge remote-tracking branch 'origin/master'
+[33m7283722[m Merge remote-tracking branch 'origin/master'
+[33m4de4697[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Update session configuration to use database driver
+[33m2e4243b[m Merge remote-tracking branch 'origin/master'
+[33m4ae470b[m Merge remote-tracking branch 'origin/master'
+[33mebdc525[m Merge remote-tracking branch 'origin/master'
+[33m73ed7c3[m Merge remote-tracking branch 'origin/master'
+[33mb6c09ab[m Merge remote-tracking branch 'origin/master'
+[33mba3cfa1[m Merge remote-tracking branch 'origin/master'
+[33m0118546[m Merge remote-tracking branch 'origin/master'
+[33mb8c6517[m Merge remote-tracking branch 'origin/master'
+[33mce8c14c[m Merge remote-tracking branch 'origin/master'
+[33m0b33302[m Update Jenkinsfile
+[33mf78b5d5[m Add files via upload
+[33m8891530[m Update Jenkinsfile
+[33m8eee8dc[m Update Jenkinsfile
+[33mea8a50a[m Update Jenkinsfile
+[33mae3cff4[m Update Dockerfile
+[33m5429ebc[m Update Jenkinsfile
+[33m82821f9[m Update Jenkinsfile
+[33m41b740f[m Update Jenkinsfile
+[33meaf0848[m Update Jenkinsfile
+[33m5733703[m Update Jenkinsfile
+[33m61d2b78[m Update Jenkinsfile
+[33m90eff49[m Update Jenkinsfile
+[33m689bb41[m Résolution des conflits lors du pull
+[33mb949bd3[m Update Jenkinsfile
+[33m1689e30[m Update Jenkinsfile
+[33m6b9102d[m Merge remote-tracking branch 'origin/master'
+[33mf6bf14d[m Merge remote-tracking branch 'origin/master'
+[33m6a0e5a1[m Update Jenkinsfile
+[33m2a77cbc[m Merge remote-tracking branch 'origin/master'
+[33ma4244ba[m Update Jenkinsfile
+[33mab89853[m Update Jenkinsfile
+[33m4b5f37f[m Update Jenkinsfile
+[33m236aed0[m Update Jenkinsfile
+[33m5beece9[m Update Jenkinsfile
+[33m45ef441[m Update Jenkinsfile
+[33mfbd401f[m Update Jenkinsfile
+[33me75a0b3[m Update Jenkinsfile
+[33m40731b9[m Update Jenkinsfile
+[33m19254cc[m Update Jenkinsfile
+[33m3294b9f[m Merge remote-tracking branch 'origin/master'
+[33m19c8422[m Update Jenkinsfile
+[33me254a4f[m Update Jenkinsfile
+[33ma33dc6c[m Update Jenkinsfile
+[33m399d42a[m Update Jenkinsfile
+[33mc5027b7[m Update Jenkinsfile
+[33mca1cd29[m Update Jenkinsfile
+[33ma3fc1e5[m Update Jenkinsfile
+[33mb343077[m Merge remote-tracking branch 'origin/master'
+[33m5440c09[m Merge remote-tracking branch 'origin/master'
+[33m92e729d[m Update Jenkinsfile
+[33m78be3d4[m Update Jenkinsfile
+[33m70be434[m Update Jenkinsfile
+[33mfdcfab7[m Update Jenkinsfile
+[33m5d4a28c[m Update Jenkinsfile
+[33ma1b106c[m Update Jenkinsfile
+[33md22bdaa[m Update Jenkinsfile
+[33m2f469ce[m Update Jenkinsfile
+[33m0d1c982[m Update Jenkinsfile
+[33m9a4cd2d[m Update Jenkinsfile
+[33m20bfba5[m Update Jenkinsfile
+[33m4fa0e4d[m Update Jenkinsfile
+[33mf882b72[m Update Jenkinsfile
+[33md2aa8ef[m Update Jenkinsfile
+[33m8a5cc46[m Update Jenkinsfile
+[33mc42516b[m Update Jenkinsfile
+[33m0536848[m update
+[33m170c81d[m update
+[33m634413b[m update
+[33mc574df6[m update
+[33m08209f0[m feat: Add user roles and password management methods to User model
+[33madcc75a[m feat: Add contact route, controller, model, and view
+[33mbeda135[m feat: Add AgentController, Agent model, and agent views
+[33mfbce4c5[m feat: Update header and menu for modern real estate agency look
+[33m6438704[m style: Update colors to white and light gray
+[33mc665de2[m refactor: Replace Bootstrap button classes with custom styles
+[33m13617e4[m refactor: Update welcome.blade.php to use style.css instead of Bootstrap
+[33mfc44168[m feat: Update welcome page to French and add logout functionality
+[33m4d99884[m feat: Add dark mode styles to style.css
+[33m8561858[m refactor: Update header, remove buttons, and apply ChatGPT-inspired theme
+[33m6af5d4b[m feat: Add IncidentController, Incident model, and incident views
+[33m22360cf[m feat: Add PatientController, Patient model, and patient views
+[33m60e8289[m refactor: Simplify and reorganize route definitions
+[33m946fa8c[m feat: Add dark theme CSS and include in Blade views
+[33m3ff0bbd[m feat: Redirect to biens.index after login
+[33me52153f[m refactor: Simplify login and logout methods in AuthController
+[33m1d01cd1[m feat: Add authentication to the application
+[33m1b40d65[m feat: Add French localization and registration form
+[33mc2299c9[m[33m ([m[1;31mQuartierPrive/master[m[33m)[m update
+[33mce34701[m Update README.md
+[33m9a177b4[m Create LICENSE
+[33ma0ade60[m Update README.md
+[33mb0a0d0d[m Update README.md
+[33m5b4e41b[m Update README.md
+[33mf3d4820[m update
+[33m10e1182[m update
