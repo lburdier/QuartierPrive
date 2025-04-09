@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'database'),
+    'driver' => 'database', // Utiliser la base de données pour les sessions
 
     /*
     |--------------------------------------------------------------------------
