@@ -83,7 +83,7 @@ pipeline {
         }
       }
       steps {
-        script {
+
           withCredentials([usernamePassword(
             credentialsId: '55b96359-6f51-4959-a822-e0815b4338a2',
             usernameVariable: 'USERNAME',
@@ -97,7 +97,7 @@ pipeline {
               sh "/usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@immo.burdier.net.local 'cd /private ; /usr/bin/php8.2 /usr/local/bin/composer update'"
               sh "/usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@immo.burdier.net.local 'cd /private ; /usr/bin/php8.2 artisan migrate'"
           }
-        }
+
       }
     }
 
