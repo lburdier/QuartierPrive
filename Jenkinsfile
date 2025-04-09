@@ -3,6 +3,7 @@ pipeline {
   environment {
     HOME = '.'
   }
+
   stages {
 
     stage('Test') {
@@ -15,7 +16,16 @@ pipeline {
       steps {
         sh '''
           composer update
+          
+          # Copier le .env s'il existe
           cp /.env ${WORKSPACE}/.env || true
+
+          # Crée la base SQLite si besoin
+          mkdir -p database
+          touch database/database.sqlite
+
+          php artisan config:clear
+          php artisan migrate:fresh --seed || true
           php artisan test
         '''
       }
@@ -36,26 +46,31 @@ pipeline {
             passwordVariable: 'PASSWORD'
           )
         ]) {
-          sh '''
-            echo "USERNAME     = $USERNAME"
-            echo "WORKSPACE    = $WORKSPACE"
+          script {
+            sh '''
+              echo "USERNAME     = $USERNAME"
+              echo "WORKSPACE    = $WORKSPACE"
 
-            /usr/bin/sshpass -p "$PASSWORD" /usr/bin/scp \
-              -o UserKnownHostsFile=/dev/null \
-              -o StrictHostKeyChecking=no \
-              -r "$WORKSPACE"/* "$USERNAME"@immo.burdier.net.local:/private
+              # Transfert des fichiers
+              /usr/bin/sshpass -p "$PASSWORD" /usr/bin/scp \
+                -o UserKnownHostsFile=/dev/null \
+                -o StrictHostKeyChecking=no \
+                -r "$WORKSPACE"/* "$USERNAME"@immo.burdier.net.local:/private
 
-            /usr/bin/sshpass -p "$PASSWORD" /usr/bin/ssh \
-              -o UserKnownHostsFile=/dev/null \
-              -o StrictHostKeyChecking=no \
-              "$USERNAME"@immo.burdier.net.local '
-                cd /private && \
-                composer update && \
-                php artisan migrate
-              '
-          '''
+              # Commandes à distance
+              /usr/bin/sshpass -p "$PASSWORD" /usr/bin/ssh \
+                -o UserKnownHostsFile=/dev/null \
+                -o StrictHostKeyChecking=no \
+                "$USERNAME"@immo.burdier.net.local '
+                  cd /private && \
+                  composer update && \
+                  php artisan migrate
+                '
+            '''
+          }
         }
       }
     }
+
   }
 }
