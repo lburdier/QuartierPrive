@@ -101,15 +101,12 @@ pipeline {
             passwordVariable: 'PASSWORD'
           )]) {
             echo "🔐 Déploiement avec l'utilisateur : ${USERNAME}"
-            sh '''
-              echo "📁 WORKSPACE = ${WORKSPACE}"
-              sshpass -p $PASSWORD scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${WORKSPACE}/* $USERNAME@immo.burdier.net.local:/private
-              sshpass -p $PASSWORD ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@immo.burdier.net.local '
-                cd /private ;
-                php /usr/local/bin/composer update ;
-                php artisan migrate
-              '
-            '''
+              sh "echo USERNAME     = $USERNAME"
+              sh "echo PASSWORD     = $PASSWORD"
+              sh "echo WORKSPACE    = ${env.WORKSPACE}"
+              sh "/usr/bin/sshpass -p $PASSWORD /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${env.WORKSPACE}/* $USERNAME@immo.burdier.net.local:/private"
+              sh "/usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@immo.burdier.net.local 'cd /private ; /usr/bin/php8.2 /usr/local/bin/composer update'"
+              sh "/usr/bin/sshpass -p $PASSWORD /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@immo.burdier.net.local 'cd /private ; /usr/bin/php8.2 artisan migrate'"
           }
         }
       }
