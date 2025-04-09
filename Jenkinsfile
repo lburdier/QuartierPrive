@@ -89,7 +89,7 @@ pipeline {
     stage('Deploy') {
       agent {
         docker {
-          image 'lucas/laravel-sshpass:latest'
+          image 'debian-laravel:latest'
           args '-v /etc/passwd:/etc/passwd -v /etc/group:/etc/group'
         }
       }
