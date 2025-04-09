@@ -14,25 +14,28 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Créer des utilisateurs avec des données factices
-        DB::table('utilisateurs')->insert([
+        DB::table('utilisateurs')->updateOrInsert(
+            ['email' => 'john.doe@example.com'], // Condition
             [
                 'nom' => 'Doe',
                 'prenom' => 'John',
-                'email' => 'john.doe@example.com',
                 'mot_de_passe' => Hash::make('password123'),
                 'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
+            ]
+        );
+
+        DB::table('utilisateurs')->updateOrInsert(
+            ['email' => 'jane.smith@example.com'], // Condition
             [
                 'nom' => 'Smith',
                 'prenom' => 'Jane',
-                'email' => 'jane.smith@example.com',
                 'mot_de_passe' => Hash::make('password123'),
                 'role' => 'user',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-        ]);
+            ]
+        );
     }
 }
