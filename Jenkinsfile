@@ -103,8 +103,8 @@ pipeline {
             echo "🔐 Déploiement avec l'utilisateur : ${USERNAME}"
             sh '''
               echo "📁 WORKSPACE = ${WORKSPACE}"
-              sshpass -p $PASSWORD scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${WORKSPACE}/* $USERNAME@api.etudiant.etu.sio.local:/private
-              sshpass -p $PASSWORD ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@api.etudiant.etu.sio.local '
+              sshpass -p $PASSWORD scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -r ${WORKSPACE}/* $USERNAME@immo.burdier.net.local:/private
+              sshpass -p $PASSWORD ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $USERNAME@immo.burdier.net.local '
                 cd /private ;
                 php /usr/local/bin/composer update ;
                 php artisan migrate
