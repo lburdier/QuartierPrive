@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Créer 10 utilisateurs avec des données factices
+        // Créer des utilisateurs avec des données factices
         DB::table('utilisateurs')->insert([
             [
                 'nom' => 'Doe',

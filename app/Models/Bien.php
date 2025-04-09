@@ -78,6 +78,14 @@ class Bien extends Model
     }
 
     /**
+     * Relation : un bien appartient à un client.
+     */
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    /**
      * Définir un accessoire pour formater le prix.
      *
      * @return string
